@@ -1,0 +1,6 @@
+.env
+spotifyapi.ts
+
+dist/
+.vscode/
+node_modules/

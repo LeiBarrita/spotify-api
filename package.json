@@ -1,0 +1,37 @@
+{
+  "name": "spotify-api",
+  "version": "1.0.0",
+  "description": "Spotify api project for action automation",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/src/index.js",
+    "dev": "nodemon src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeiBarrita/spotify-api.git"
+  },
+  "keywords": [
+    "spotify"
+  ],
+  "author": "Uziel Barrita",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LeiBarrita/spotify-api/issues"
+  },
+  "homepage": "https://github.com/LeiBarrita/spotify-api#readme",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.7",
+    "concurrently": "^9.1.2",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  }
+}
