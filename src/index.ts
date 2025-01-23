@@ -1,15 +1,18 @@
-import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
+import app from "./app";
 
 dotenv.config();
 
-const app: Express = express();
 const port = process.env.PORT || 3000;
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Hello Api");
-});
+async function start() {
+  try {
+    app.listen(port, () => {
+      console.log(`Server is running in port http://localhost:${port}`);
+    });
+  } catch (error) {
+    console.log("Error:", error);
+  }
+}
 
-app.listen(port, () => {
-  console.log(`Server is running in port http://localhost:${port}`);
-});
+start();
