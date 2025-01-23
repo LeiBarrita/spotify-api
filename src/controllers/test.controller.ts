@@ -31,8 +31,6 @@ export const helloWorld = async (req: Request, res: Response): Promise<any> => {
     const state = req.query.state;
     const port = process.env.PORT;
 
-    // if (!code || !state) res.redirect(`http://localhost:${port}/login`);
-
     res.json({
       code: req.query.code,
       state: req.query.state,
@@ -44,6 +42,15 @@ export const helloWorld = async (req: Request, res: Response): Promise<any> => {
 
 export const token = async (req: Request, res: Response): Promise<any> => {
   try {
+    // const code = req.query.code;
+    // const state = req.query.state;
+    // const port = process.env.PORT;
+
+    // res.json({
+    //   code: req.query.code,
+    //   state: req.query.state,
+    // });
+
     const code = req.query.code;
     const state = req.query.state;
     const port = process.env.PORT;
@@ -61,12 +68,14 @@ export const token = async (req: Request, res: Response): Promise<any> => {
     const token = await fetch("https://accounts.spotify.com/api/token", {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: "Basic" + btoa(clientId + ":" + clientSecret),
+        Authorization:
+          "Basic " +
+          Buffer.from(clientId + ":" + clientSecret).toString("base64"),
       },
       body: new URLSearchParams({
         grant_type: "authorization_code",
         code: `${code}`,
-        redirect_uri: `http://localhost:${port}/home`,
+        redirect_uri: `http://localhost:${port}/token`,
       }),
       method: "POST",
     });
