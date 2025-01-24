@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import querystring from "node:querystring";
+import querystring from "querystring";
 import { URLSearchParams } from "url";
 import generateRandomString from "../utils/generateRandomString";
 
@@ -9,7 +9,7 @@ export const login = async (req: Request, res: Response) => {
     const clientId = process.env.CLIENT_ID;
     const redirect_uri = `http://localhost:${port}/token`;
     let state = generateRandomString(16);
-    let scope = "user-read-private user-read-email";
+    let scope = "user-read-private user-read-email user-top-read";
 
     res.redirect(
       "https://accounts.spotify.com/authorize?" +
@@ -57,9 +57,16 @@ export const token = async (req: Request, res: Response): Promise<any> => {
       method: "POST",
     });
 
-    // console.log(tokenjson);
-    const tokenjson = await token.json();
-    return res.json(tokenjson);
+    // console.log(response);
+    const response = await token.json();
+
+    if (response.access_token) {
+      return res.redirect(
+        `http://localhost:${port}/favorites?access_token=${response.access_token}`
+      );
+    } else {
+      return res.json(response);
+    }
   } catch (error) {
     res.status(500).json({ error });
   }
