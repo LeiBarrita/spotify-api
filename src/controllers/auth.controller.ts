@@ -3,15 +3,16 @@ import querystring from "querystring";
 import { URLSearchParams } from "url";
 import generateRandomString from "../utils/generateRandomString";
 
-export const login = async (req: Request, res: Response) => {
+export const login = async (req: Request, res: Response): Promise<any> => {
   try {
     const port = process.env.PORT;
     const clientId = process.env.CLIENT_ID;
     const redirect_uri = `http://localhost:${port}/token`;
     let state = generateRandomString(16);
-    let scope = "user-read-private user-read-email user-top-read";
+    let scope =
+      "user-read-private user-read-email user-top-read playlist-read-private";
 
-    res.redirect(
+    return res.redirect(
       "https://accounts.spotify.com/authorize?" +
         querystring.stringify({
           response_type: "code",
@@ -35,7 +36,7 @@ export const token = async (req: Request, res: Response): Promise<any> => {
     const clientSecret = process.env.CLIENT_SECRET;
 
     if (!state)
-      res.redirect(
+      return res.redirect(
         "/#" +
           querystring.stringify({
             error: "state_mismatch",
@@ -60,13 +61,14 @@ export const token = async (req: Request, res: Response): Promise<any> => {
     // console.log(response);
     const response = await token.json();
 
-    if (response.access_token) {
-      return res.redirect(
-        `http://localhost:${port}/favorites?access_token=${response.access_token}`
-      );
-    } else {
-      return res.json(response);
-    }
+    return res.json(response);
+    // if (response.access_token) {
+    //   return res.redirect(
+    //     `http://localhost:${port}/favorites?access_token=${response.access_token}`
+    //   );
+    // } else {
+    //   return res.json(response);
+    // }
   } catch (error) {
     res.status(500).json({ error });
   }
